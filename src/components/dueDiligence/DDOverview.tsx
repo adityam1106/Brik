@@ -1,5 +1,10 @@
 import DDDashboard from './DDDashboard'
+import type { DDPage } from './DDSidebar'
 
-export default function DDOverview() {
-  return <DDDashboard />
+interface DDOverviewProps {
+  onNavigate: (page: DDPage) => void
+}
+
+export default function DDOverview({ onNavigate }: DDOverviewProps) {
+  return <DDDashboard onNavigate={onNavigate} />
 }

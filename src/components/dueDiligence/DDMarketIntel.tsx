@@ -34,7 +34,26 @@ export default function DDMarketIntel() {
     >
       <CollapsibleSection title="Market Intelligence">
         {loading && (
-          <p className="text-[11px] text-brik-muted text-center py-6">Loading intelligence…</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[0, 1, 2, 3].map((i) => (
+              <div key={i} className="rounded-xl border border-brik-border p-4 space-y-3 animate-pulse">
+                <div className="flex gap-2">
+                  <div className="h-4 w-20 rounded bg-brik-surface/60" />
+                  <div className="h-4 w-16 rounded bg-brik-surface/60" />
+                </div>
+                <div className="h-3 w-full rounded bg-brik-surface/60" />
+                <div className="h-3 w-4/5 rounded bg-brik-surface/60" />
+                <div className="h-3 w-3/5 rounded bg-brik-surface/60" />
+                <div className="h-2.5 w-32 rounded bg-brik-surface/60" />
+              </div>
+            ))}
+          </div>
+        )}
+        {!loading && items.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-12 gap-2">
+            <p className="text-[12px] text-brik-text">No market intelligence available</p>
+            <p className="text-[10px] text-brik-muted">Data will appear when the Perigon API is connected</p>
+          </div>
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {items.map((item, i) => (

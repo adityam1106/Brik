@@ -71,7 +71,16 @@ export default function DDInsiderActivity() {
       >
         <CollapsibleSection title="Transaction Log">
           {loading && (
-            <p className="text-[11px] text-brik-muted text-center py-6">Loading transactions…</p>
+            <div className="space-y-2 animate-pulse">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <div key={i} className="flex gap-3 p-2.5 border-b border-brik-border/50">
+                  <div className="h-3 w-28 rounded bg-brik-surface/60" />
+                  <div className="h-3 w-20 rounded bg-brik-surface/60" />
+                  <div className="h-3 w-10 rounded bg-brik-surface/60" />
+                  <div className="h-3 w-16 rounded bg-brik-surface/60 ml-auto" />
+                </div>
+              ))}
+            </div>
           )}
           <div className="overflow-x-auto -mx-2">
             <table className="w-full border-collapse text-[11px]">
