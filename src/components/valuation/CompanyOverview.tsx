@@ -6,15 +6,7 @@ import {
   Shield,
   Droplets,
 } from "lucide-react"
-import {
-  targetCompany,
-  marketData,
-  valuationMultiples,
-  profitabilityMargins,
-  growthMetrics,
-  leverageCredit,
-  liquidityData,
-} from "@/data/valuationData"
+import { useCompanyData } from "@/contexts/CompanyContext"
 
 interface StatItem {
   label: string
@@ -72,6 +64,16 @@ function StatGroup({
 }
 
 export default function CompanyOverview() {
+  const {
+    targetCompany,
+    marketData,
+    valuationMultiples,
+    profitabilityMargins,
+    growthMetrics,
+    leverageCredit,
+    liquidityData,
+  } = useCompanyData()
+
   return (
     <div>
       <div className="flex items-baseline gap-3 mb-6">

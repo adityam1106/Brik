@@ -1,5 +1,5 @@
 import { AlertTriangle, AlertCircle, CheckCircle, Brain } from "lucide-react"
-import { aiFindings, aiRiskScore } from "@/data/valuationData"
+import { useCompanyData } from "@/contexts/CompanyContext"
 import type { AIFinding } from "@/data/valuationData"
 
 function SeverityIcon({ severity }: { severity: AIFinding["severity"] }) {
@@ -71,6 +71,7 @@ function RiskScoreRing({ score }: { score: number }) {
 }
 
 export default function AIAnalysis() {
+  const { aiFindings, aiRiskScore } = useCompanyData()
   const criticalCount = aiFindings.filter(
     (f) => f.severity === "critical"
   ).length

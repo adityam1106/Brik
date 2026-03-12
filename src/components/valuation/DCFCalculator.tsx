@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react"
 import { Calculator, DollarSign, Target, TrendingUp } from "lucide-react"
-import { dcfDefaults, targetCompany } from "@/data/valuationData"
+import { useCompanyData } from "@/contexts/CompanyContext"
 
 interface DCFInputs {
   revenue: number
@@ -107,6 +107,7 @@ function InputField({
 }
 
 export default function DCFCalculator() {
+  const { dcfDefaults, targetCompany } = useCompanyData()
   const [tvMethod, setTvMethod] = useState<"perpetuity" | "exit">("perpetuity")
   const [inputs, setInputs] = useState<DCFInputs>({
     revenue: dcfDefaults.revenue,

@@ -13,11 +13,14 @@ import {
   Activity,
   Zap,
   ArrowLeft,
+  AlertCircle,
 } from "lucide-react";
 import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
 import type { TimelineItem } from "@/components/ui/radial-orbital-timeline";
+import { useSetCompanyData } from "@/contexts/CompanyContext";
+import type { CompanyData } from "@/contexts/CompanyContext";
 
-type UploadState = "idle" | "dragging" | "uploading" | "processed";
+type UploadState = "idle" | "dragging" | "uploading" | "processed" | "error";
 
 const ibTimelineData: TimelineItem[] = [
   {
@@ -91,17 +94,36 @@ interface OrbitalDashboardProps {
 export default function OrbitalDashboard({ onBack, onNavigateToValuation, onNavigateToDueDiligence }: OrbitalDashboardProps) {
   const [uploadState, setUploadState] = useState<UploadState>("idle");
   const [fileName, setFileName] = useState<string>("");
+  const [errorMsg, setErrorMsg] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const setCompanyData = useSetCompanyData();
+  const API_URL = import.meta.env.VITE_API_URL ?? '';
 
-  const handleFileSelect = useCallback((file: File) => {
+  const handleFileSelect = useCallback(async (file: File) => {
     setFileName(file.name);
     setUploadState("uploading");
+    setErrorMsg("");
 
-    // Simulate AI processing
-    setTimeout(() => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const url = API_URL ? `${API_URL}/api/upload` : '/api/upload';
+      const res = await fetch(url, { method: "POST", body: formData });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ detail: "Upload failed" }));
+        throw new Error(err.detail || "Upload failed");
+      }
+
+      const result: CompanyData = await res.json();
+      setCompanyData(result);
       setUploadState("processed");
-    }, 2500);
-  }, []);
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Upload failed");
+      setUploadState("error");
+    }
+  }, [API_URL, setCompanyData]);
 
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
@@ -183,6 +205,8 @@ export default function OrbitalDashboard({ onBack, onNavigateToValuation, onNavi
             ? "bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 animate-pulse"
             : uploadState === "processed"
             ? "bg-gradient-to-br from-emerald-500 via-green-500 to-teal-500"
+            : uploadState === "error"
+            ? "bg-gradient-to-br from-red-600 via-red-500 to-orange-500"
             : "bg-gradient-to-br from-purple-500 via-blue-500 to-teal-500"
         }
         border border-white/20
@@ -225,6 +249,15 @@ export default function OrbitalDashboard({ onBack, onNavigateToValuation, onNavi
               </span>
               <span className="text-[7px] opacity-70 truncate max-w-[70px]">
                 {fileName}
+              </span>
+            </>
+          )}
+          {uploadState === "error" && (
+            <>
+              <AlertCircle size={20} className="mb-1" />
+              <span className="text-[8px] font-semibold tracking-wider">ERROR</span>
+              <span className="text-[7px] opacity-70 truncate max-w-[70px]">
+                {errorMsg.slice(0, 20)}
               </span>
             </>
           )}

@@ -1,8 +1,9 @@
 import { motion } from "framer-motion"
 import { ArrowDown } from "lucide-react"
-import { evBridgeData, targetCompany } from "@/data/valuationData"
+import { useCompanyData } from "@/contexts/CompanyContext"
 
 export default function EVBridge() {
+  const { evBridgeData, targetCompany } = useCompanyData()
   // Compute running totals for waterfall
   let running = 0
   const items = evBridgeData.map((item) => {

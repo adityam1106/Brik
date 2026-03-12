@@ -6,6 +6,7 @@ import LandingScreen from './components/LandingScreen'
 import OrbitalDashboard from './components/OrbitalDashboard'
 import ValuationPage from './components/valuation/ValuationPage'
 import DueDiligencePage from './components/dueDiligence/DueDiligencePage'
+import { CompanyProvider } from './contexts/CompanyContext'
 import './App.css'
 
 type AppState = 'landing' | 'transitioning' | 'dashboard' | 'valuation' | 'dueDiligence'
@@ -62,6 +63,7 @@ export default function App() {
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   return (
+    <CompanyProvider>
     <div className="w-full h-full bg-brik-black relative overflow-hidden">
       {/* Three.js Canvas Background */}
       {!prefersReducedMotion && (
@@ -130,5 +132,6 @@ export default function App() {
         )}
       </AnimatePresence>
     </div>
+    </CompanyProvider>
   )
 }

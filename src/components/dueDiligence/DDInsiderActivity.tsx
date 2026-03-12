@@ -15,8 +15,8 @@ function fmtShares(n: number) {
   return n.toLocaleString()
 }
 
-export default function DDInsiderActivity() {
-  const { data: txns, loading } = useFinnhubInsiders('ACME')
+export default function DDInsiderActivity({ ticker }: { ticker: string }) {
+  const { data: txns, loading } = useFinnhubInsiders(ticker)
 
   const buys = txns.filter((t) => t.transactionType === 'buy')
   const sells = txns.filter((t) => t.transactionType === 'sell')

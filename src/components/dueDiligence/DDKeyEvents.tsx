@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion'
 import CollapsibleSection from '@/components/valuation/CollapsibleSection'
 import EventTimelineItem from './shared/EventTimelineItem'
-import { mockCorporateEvents } from '@/data/dueDiligenceData'
+import { useCompanyData } from '@/contexts/CompanyContext'
 
 export default function DDKeyEvents() {
+  const { mockCorporateEvents } = useCompanyData()
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}

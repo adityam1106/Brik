@@ -1,7 +1,8 @@
 import { TrendingUp } from "lucide-react"
-import { forecastData } from "@/data/valuationData"
+import { useCompanyData } from "@/contexts/CompanyContext"
 
 export default function ForecastTable() {
+  const { forecastData } = useCompanyData()
   return (
     <div>
       <div className="flex items-center gap-2 mb-4">

@@ -1,5 +1,5 @@
 import { Brain, AlertCircle, AlertTriangle, Info } from 'lucide-react'
-import { ddRiskScore, mockRiskFlags } from '@/data/dueDiligenceData'
+import { useCompanyData } from '@/contexts/CompanyContext'
 import { cn } from '@/lib/utils'
 
 function RiskScoreRing({ score }: { score: number }) {
@@ -34,9 +34,9 @@ function RiskScoreRing({ score }: { score: number }) {
   )
 }
 
-const top5 = mockRiskFlags.slice(0, 5)
-
 export default function DDAIPanel() {
+  const { ddRiskScore, mockRiskFlags } = useCompanyData()
+  const top5 = mockRiskFlags.slice(0, 5)
   const criticalCount = mockRiskFlags.filter((f) => f.severity === 'critical').length
   const warningCount = mockRiskFlags.filter((f) => f.severity === 'warning').length
   const infoCount = mockRiskFlags.filter((f) => f.severity === 'informational').length

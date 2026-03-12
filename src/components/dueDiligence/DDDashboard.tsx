@@ -12,7 +12,8 @@ import {
   Minus,
   ArrowRight,
 } from 'lucide-react'
-import { mockRiskFlags, mockInsiderTransactions, ddRiskScore } from '@/data/dueDiligenceData'
+import { mockInsiderTransactions } from '@/data/dueDiligenceData'
+import { useCompanyData } from '@/contexts/CompanyContext'
 import type { DDPage } from './DDSidebar'
 
 interface DDDashboardProps {
@@ -77,6 +78,7 @@ function RiskRing({ score }: { score: number }) {
 
 // ── 1. Overview Card ──────────────────────────────────────────────────────────
 function OverviewCard({ onNavigate }: { onNavigate: (p: DDPage) => void }) {
+  const { ddRiskScore, mockRiskFlags } = useCompanyData()
   const criticalCount = mockRiskFlags.filter((f) => f.severity === 'critical').length
   const warningCount  = mockRiskFlags.filter((f) => f.severity === 'warning').length
   const infoCount     = mockRiskFlags.filter((f) => f.severity === 'informational').length

@@ -1,7 +1,8 @@
 import { Target, TrendingUp } from "lucide-react"
-import { valuationSummary, targetCompany } from "@/data/valuationData"
+import { useCompanyData } from "@/contexts/CompanyContext"
 
 export default function ValuationSummary() {
+  const { valuationSummary, targetCompany } = useCompanyData()
   // Weighted average implied share price
   const weightedMid =
     valuationSummary.reduce((acc, m) => acc + m.impliedMid * m.weight, 0) /

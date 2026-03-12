@@ -194,10 +194,11 @@ function NavCard({ page, icon: Icon, label, description, accent, onNavigate, ind
 // ── Main ──────────────────────────────────────────────────────────────────────
 interface DDNewsFeedProps {
   onNavigate: (page: DDPage) => void
+  ticker: string
 }
 
-export default function DDNewsFeed({ onNavigate }: DDNewsFeedProps) {
-  const { data: articles, loading } = useFinnhubNews('ACME')
+export default function DDNewsFeed({ onNavigate, ticker }: DDNewsFeedProps) {
+  const { data: articles, loading } = useFinnhubNews(ticker)
 
   const sorted = useMemo(
     () => [...articles].sort((a, b) => priorityScore(b) - priorityScore(a)),

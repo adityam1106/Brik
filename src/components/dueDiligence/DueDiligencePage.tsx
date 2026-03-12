@@ -6,6 +6,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import type { DDPage } from './DDSidebar'
+import { useCompanyData } from '@/contexts/CompanyContext'
 import DDOverview from './DDOverview'
 import DDNewsFeed from './DDNewsFeed'
 import DDKeyEvents from './DDKeyEvents'
@@ -30,20 +31,21 @@ interface DueDiligencePageProps {
   onBack: () => void
 }
 
-function PageContent({ page, onNavigate }: { page: DDPage; onNavigate: (p: DDPage) => void }) {
+function PageContent({ page, onNavigate, ticker }: { page: DDPage; onNavigate: (p: DDPage) => void; ticker: string }) {
   switch (page) {
     case 'overview':    return <DDOverview onNavigate={onNavigate} />
-    case 'news':        return <DDNewsFeed onNavigate={onNavigate} />
+    case 'news':        return <DDNewsFeed onNavigate={onNavigate} ticker={ticker} />
     case 'events':      return <DDKeyEvents />
     case 'risk':        return <DDRiskGovernance />
-    case 'market':      return <DDMarketIntel />
+    case 'market':      return <DDMarketIntel ticker={ticker} />
     case 'competitors': return <DDCompetitorAnalysis />
-    case 'insiders':    return <DDInsiderActivity />
+    case 'insiders':    return <DDInsiderActivity ticker={ticker} />
   }
 }
 
 export default function DueDiligencePage({ onBack }: DueDiligencePageProps) {
   const [activePage, setActivePage] = useState<DDPage>('overview')
+  const { targetCompany } = useCompanyData()
 
   return (
     <motion.div
@@ -74,8 +76,8 @@ export default function DueDiligencePage({ onBack }: DueDiligencePageProps) {
           <span className="text-xs text-brik-muted hidden md:inline">/ Due Diligence</span>
           <div className="hidden md:flex items-center gap-1.5 ml-1 px-2 py-1 rounded-lg bg-brik-surface border border-brik-border">
             <Search size={11} className="text-brik-muted" />
-            <span className="text-[11px] text-brik-muted">Acme Technologies Inc.</span>
-            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-brik-accent/10 border border-brik-accent/20 text-brik-accent ml-1">ACME</span>
+            <span className="text-[11px] text-brik-muted">{targetCompany.name}</span>
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-brik-accent/10 border border-brik-accent/20 text-brik-accent ml-1">{targetCompany.ticker}</span>
           </div>
         </div>
 
@@ -114,7 +116,7 @@ export default function DueDiligencePage({ onBack }: DueDiligencePageProps) {
       {/* Body */}
       <div className="flex min-h-[calc(100vh-105px)]">
         <main className="flex-1 min-w-0 px-4 md:px-8 py-6 md:py-8">
-          <PageContent page={activePage} onNavigate={setActivePage} />
+          <PageContent page={activePage} onNavigate={setActivePage} ticker={targetCompany.ticker} />
         </main>
         <div className="hidden lg:block px-4 py-8">
           <DDAIPanel />

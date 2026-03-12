@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import news, insiders, market, ai
+from routers import news, insiders, market, ai, upload
 
 load_dotenv()
 
@@ -30,6 +30,7 @@ app.include_router(news.router)
 app.include_router(insiders.router)
 app.include_router(market.router)
 app.include_router(ai.router)
+app.include_router(upload.router)
 
 
 # ── Health check ──────────────────────────────────────────────────────────────

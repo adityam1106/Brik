@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 import CollapsibleSection from '@/components/valuation/CollapsibleSection'
-import { mockCompetitors } from '@/data/dueDiligenceData'
+import { useCompanyData } from '@/contexts/CompanyContext'
 import type { Competitor } from '@/data/dueDiligenceData'
 import { cn } from '@/lib/utils'
 
@@ -26,6 +26,7 @@ function TrendBadge({ trend }: { trend: Competitor['trend'] }) {
 }
 
 export default function DDCompetitorAnalysis() {
+  const { mockCompetitors } = useCompanyData()
   return (
     <div className="space-y-6">
       {/* Summary Table */}

@@ -1,7 +1,8 @@
 import { motion } from "framer-motion"
-import { footballFieldData, targetCompany } from "@/data/valuationData"
+import { useCompanyData } from "@/contexts/CompanyContext"
 
 export default function FootballFieldChart() {
+  const { footballFieldData, targetCompany } = useCompanyData()
   const allValues = footballFieldData.flatMap((d) => [d.low, d.high])
   const globalMin = Math.floor((Math.min(...allValues) - 15) / 10) * 10
   const globalMax = Math.ceil((Math.max(...allValues) + 15) / 10) * 10

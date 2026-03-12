@@ -3,18 +3,19 @@ import { motion } from 'framer-motion'
 import { Users2 } from 'lucide-react'
 import CollapsibleSection from '@/components/valuation/CollapsibleSection'
 import RiskFlag from './shared/RiskFlag'
-import { mockRiskFlags } from '@/data/dueDiligenceData'
+import { useCompanyData } from '@/contexts/CompanyContext'
 import type { RiskFlag as RiskFlagType } from '@/data/dueDiligenceData'
 
 type SeverityFilter = 'all' | RiskFlagType['severity']
 
 export default function DDRiskGovernance() {
+  const { mockRiskFlags } = useCompanyData()
   const [filter, setFilter] = useState<SeverityFilter>('all')
 
   const filtered = useMemo(() => {
     if (filter === 'all') return mockRiskFlags
     return mockRiskFlags.filter((f) => f.severity === filter)
-  }, [filter])
+  }, [filter, mockRiskFlags])
 
   return (
     <div className="space-y-6">

@@ -1,5 +1,5 @@
 import { GitMerge } from "lucide-react"
-import { precedentTransactions } from "@/data/valuationData"
+import { useCompanyData } from "@/contexts/CompanyContext"
 
 function median(arr: number[]): number {
   const sorted = [...arr].sort((a, b) => a - b)
@@ -12,6 +12,7 @@ function mean(arr: number[]): number {
 }
 
 export default function PrecedentTransactions() {
+  const { precedentTransactions } = useCompanyData()
   const validPremiums = precedentTransactions
     .map((d) => d.premium)
     .filter((v) => v > 0)

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion"
 import { ArrowLeft, Layers, Activity, Zap } from "lucide-react"
+import { useCompanyData } from "@/contexts/CompanyContext"
 import CompanyOverview from "./CompanyOverview"
 import AIAnalysis from "./AIAnalysis"
 import ValuationSummary from "./ValuationSummary"
@@ -29,6 +30,7 @@ interface ValuationPageProps {
 }
 
 export default function ValuationPage({ onBack }: ValuationPageProps) {
+  const { targetCompany } = useCompanyData()
   return (
     <motion.div
       className="fixed inset-0 z-10 overflow-y-auto bg-brik-black"
@@ -100,7 +102,7 @@ export default function ValuationPage({ onBack }: ValuationPageProps) {
             </motion.div>
 
             {/* DCF Calculator */}
-            <motion.div {...sectionVariants(3)}>
+            <motion.div key={targetCompany.ticker} {...sectionVariants(3)}>
               <CollapsibleSection title="DCF Analysis">
                 <DCFCalculator />
                 {/* Forecast Table */}

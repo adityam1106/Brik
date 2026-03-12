@@ -23,8 +23,8 @@ const trendBg: Record<MarketIntelItem['trend'], string> = {
   neutral: 'border-amber-500/20 bg-amber-500/5',
 }
 
-export default function DDMarketIntel() {
-  const { data: items, loading } = usePerigonIntel('Acme Technologies')
+export default function DDMarketIntel({ ticker }: { ticker: string }) {
+  const { data: items, loading } = usePerigonIntel(ticker)
 
   return (
     <motion.div

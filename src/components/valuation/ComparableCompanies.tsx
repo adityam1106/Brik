@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { BarChart3, Filter } from "lucide-react"
-import { comparableCompanies } from "@/data/valuationData"
+import { useCompanyData } from "@/contexts/CompanyContext"
 
 function median(arr: number[]): number {
   const sorted = [...arr].sort((a, b) => a - b)
@@ -30,6 +30,7 @@ const growthLabel: Record<GrowthFilter, string> = {
 }
 
 export default function ComparableCompanies() {
+  const { comparableCompanies } = useCompanyData()
   const [mcFilter, setMcFilter] = useState<MarketCapFilter>("all")
   const [growthFilter, setGrowthFilter] = useState<GrowthFilter>("all")
 
