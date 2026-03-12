@@ -25,7 +25,8 @@ const FCF_CONVERSION = 0.65
 
 function computeDCF(
   inputs: DCFInputs,
-  tvMethod: "perpetuity" | "exit"
+  tvMethod: "perpetuity" | "exit",
+  targetCompany: { netDebt: number; sharesOutstanding: number }
 ): DCFOutputs {
   const { ebitda, revenueGrowthRate, wacc, terminalGrowthRate, exitMultiple, projectionPeriod } = inputs
 
@@ -119,15 +120,15 @@ export default function DCFCalculator() {
     projectionPeriod: dcfDefaults.projectionPeriod,
   })
 
-  const outputs = useMemo(() => computeDCF(inputs, tvMethod), [inputs, tvMethod])
+  const outputs = useMemo(() => computeDCF(inputs, tvMethod, targetCompany), [inputs, tvMethod, targetCompany])
 
   const sensitivityMatrix = useMemo(() => {
     return WACC_VALUES.map((wacc) =>
       TGR_VALUES.map((tgr) =>
-        computeDCF({ ...inputs, wacc, terminalGrowthRate: tgr }, tvMethod).impliedSharePrice
+        computeDCF({ ...inputs, wacc, terminalGrowthRate: tgr }, tvMethod, targetCompany).impliedSharePrice
       )
     )
-  }, [inputs, tvMethod])
+  }, [inputs, tvMethod, targetCompany])
 
   const update = (field: keyof DCFInputs, value: number) =>
     setInputs((prev) => ({ ...prev, [field]: value }))
