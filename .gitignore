@@ -15,6 +15,12 @@ dist-ssr
 # Claude
 .claude
 
+# Backend secrets
+backend/.env
+backend/__pycache__/
+backend/**/__pycache__/
+backend/*.pyc
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
